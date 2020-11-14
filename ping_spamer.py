@@ -5,7 +5,7 @@ import requests
 import logging
 import time
 
-logging.basicConfig(format="%(levelname)s %(asctime)s %(message)s", level=logging.INFO, filename='logs.txt')
+logging.basicConfig(format="%(levelname)s %(asctime)s %(message)s", level=logging.INFO, filename='ping_spamer.log')
 
 load_dotenv()
 
@@ -25,9 +25,9 @@ def send_sms(message_text):
             from_=FROM_PHONE_NUMBER,
             to=TO_PHONE_NUMBER
         )
-        logging.info(f'Сообщение {message_text} отправлено')
+        logging.info(f'Message {message_text} sent')
     except Exception:
-        logging.info(f'Сообщение не отправлено')
+        logging.info("Message wasn't send")
 
 count = 1
 while count <= 20:
@@ -35,10 +35,10 @@ while count <= 20:
     status = response.status_code
 
     if status == 200:
-        logging.info(f'Сервер {URL} доступен')
+        logging.info(f'Site {URL} is online')
     else:
-        logging.info(f'{URL} выдал ошибку: {status} - отправляем смс')
-        send_sms(f'Сайт {URL} выдал ошибку: {status}')
+        logging.info(f'{URL} gave error: {status} - send sms')
+        send_sms(f'Site {URL} gave error: {status}')
 
     time.sleep(SLEEP_TIME)
     count += 1
